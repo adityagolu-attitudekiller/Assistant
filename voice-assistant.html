@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voice Assistant</title>
+</head>
+<body>
+    <center>
+    <br><br><br>
+    <h2>Try saying...</h2>
+    1. Hello
+    <br>
+    2. how are you
+    <br>
+    3. what is the weather
+    <br>
+    4. what is 2 + 2
+    <br>
+    5. what is your name
+    <br>
+    <span id='message' style="color:white;">I'm Daniel. How can i help you ?</span>
+    <br><br>
+    <button id='btnGiveCommand'>click & speek command</button>
+    <br><br><br><br><br><br><br><br>
+    <h1 id='outputresult'></h1>
+    <br><br>
+
+    <script>
+        var message = document.querySelector('#message');
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+        var grammar = '#JSGF V1.0;'
+        var recognition = new SpeechRecognition();
+        var speechRecognitionList = new SpeechGrammarList();
+        speechRecognitionList.addFromString(grammar, 1);
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        recognition.onspeechend = function() {
+            recognition.stop();
+        };
+
+        recognition.onerror = function(event) {
+            message.textContent = 'Error : ' + event.error;
+        }        
+
+        document.querySelector('#btnGiveCommand').addEventListener('click', function(){
+            recognition.start();
+
+        });
+
+        recognition.onresult = function(event) {
+            var last = event.results.length - 1;
+            var command = event.results[last][0].transcript;
+            message.textContent = '' + command;
+
+            if (message.textContent == 'hello')
+            {
+                outputresult.textContent = 'Hello Aditya. How are you ?';
+            }
+            else if (message.textContent == 'what is the weather')
+            {
+                outputresult.textContent = '34 * celcious';
+            }
+            else if (message.textContent == 'what is your name')
+            {
+                outputresult.textContent = 'My name is Daniel';
+            }
+            else if (message.textContent == 'hello Daniel')
+            {
+                outputresult.textContent = 'Hello Aditya. How are you ?';
+            }
+            else if (message.textContent == 'how are you')
+            {
+                outputresult.textContent = 'Im Fine. How are you ?';
+            }
+            else if (message.textContent == 'I am fine how are you')
+            {
+                outputresult.textContent = 'Im Fine too. Thanks for asking';
+            }
+            else if (message.textContent == 'what is 2 + 2')
+            {
+                outputresult.textContent = 'Result = 4';
+            }
+            else
+            {
+                voiceoutput.textContent = '';
+            }
+
+        };
+
+        
+
+
+    </script>
+
+    <script>
+
+    </script>
+</body>
+</html>
